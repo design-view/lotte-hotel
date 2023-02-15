@@ -15,11 +15,15 @@ const Header = () => {
         dispatch(setLogout());
     }
     useEffect(()=>{
-        if(username){
-            dispatch(setLogin());
-        }else {
-            dispatch(setLogout());
-        }
+        const loop = setInterval(()=>{
+            const username = getCookie("username");
+            if(username){
+                dispatch(setLogin());
+            }else {
+                dispatch(setLogout());
+                clearInterval(loop);
+            }
+        },3000)
     },[username,dispatch])
     return (
         <header>
@@ -27,7 +31,7 @@ const Header = () => {
             <ul className='menu'>
                 <li><Link to="/special">스페셜오퍼</Link></li>
                 <li><Link to="/room">객실안내</Link></li>
-                <li>객실예약</li>
+                <li><Link to="reservation">객실예약</Link></li>
                 <li>이용안내</li>
                 { isLogin && username === 'admin' ? 
                 <>
